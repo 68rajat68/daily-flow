@@ -7,6 +7,7 @@ import MonthViewScreen from "./screens/MonthViewScreen";
 import StatsScreen from "./screens/StatsScreen";
 import SettingsScreen from "./screens/SettingsScreen";
 import BottomNav from "./components/BottomNav";
+import { AppSkeleton } from "./components/Skeleton";
 
 export default function App() {
   const { user, loading, screen, initAuth } = useTaskStore();
@@ -14,12 +15,7 @@ export default function App() {
     initAuth();
   }, []);
 
-  if (loading)
-    return (
-      <div className="loading-screen">
-        <div className="spinner"></div>
-      </div>
-    );
+  if (loading) return <AppSkeleton />;
   if (!user) return <LoginScreen />;
 
   return (

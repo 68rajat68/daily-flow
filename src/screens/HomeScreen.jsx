@@ -1,16 +1,23 @@
 import { useEffect } from "react";
 import { Sun, Sunrise, Moon, ArrowLeft, FileText, Plus } from "lucide-react";
 import { useTaskStore } from "../store/useTaskStore";
-import { getGreeting, format } from "../utils/dateHelpers";
+import { format } from "../utils/dateHelpers";
 import TaskCard from "../components/TaskCard";
 import ProgressRing from "../components/ProgressRing";
+import { TaskListSkeleton } from "../components/Skeleton";
 
 const slots = ["morning", "afternoon", "evening"];
 const slotIcon = { morning: Sunrise, afternoon: Sun, evening: Moon };
 
 export default function HomeScreen() {
-  const { tasks, selectedDate, navigate, setSelectedDate, toggleComplete } =
-    useTaskStore();
+  const {
+    tasks,
+    tasksLoading,
+    selectedDate,
+    navigate,
+    setSelectedDate,
+    toggleComplete,
+  } = useTaskStore();
   const today = format(new Date(), "yyyy-MM-dd");
   const isToday = selectedDate === today;
   const total = tasks.length;
@@ -38,24 +45,28 @@ export default function HomeScreen() {
     grouped[s] = tasks.filter((t) => t.timeSlot === s);
   });
 
+  const currentHour = new Date().getHours();
   const GreetingIcon = isToday
-    ? new Date().getHours() < 12
+    ? currentHour < 12
       ? Sunrise
-      : new Date().getHours() < 17
+      : currentHour < 17
         ? Sun
         : Moon
     : Sun;
+  const greetingText = isToday
+    ? currentHour < 12
+      ? "Good Morning"
+      : currentHour < 17
+        ? "Good Afternoon"
+        : "Good Evening"
+    : "Task View";
 
   return (
     <div>
       <div className="greeting">
         <h2>
           <GreetingIcon size={22} />{" "}
-          {isToday
-            ? getGreeting()
-                .replace(/[\u{1F31E}\u{2600}\u{FE0F}\u{1F303}]/g, "")
-                .trim()
-            : "Task View"}
+          {greetingText}
         </h2>
         <div className="date-text">
           {isToday
@@ -69,7 +80,9 @@ export default function HomeScreen() {
         )}
       </div>
 
-      {total > 0 && (
+      {tasksLoading && <TaskListSkeleton count={5} />}
+
+      {!tasksLoading && total > 0 && (
         <div className="progress-section">
           <div className="progress-info">
             <div className="pct">{pct}%</div>
@@ -81,27 +94,28 @@ export default function HomeScreen() {
         </div>
       )}
 
-      {slots.map((slot) => {
-        const st = grouped[slot];
-        if (st.length === 0) return null;
-        const SlotIcon = slotIcon[slot];
-        return (
-          <div key={slot}>
-            <div className="section-title">
-              <SlotIcon /> {slot.charAt(0).toUpperCase() + slot.slice(1)}
+      {!tasksLoading &&
+        slots.map((slot) => {
+          const st = grouped[slot];
+          if (st.length === 0) return null;
+          const SlotIcon = slotIcon[slot];
+          return (
+            <div key={slot}>
+              <div className="section-title">
+                <SlotIcon /> {slot.charAt(0).toUpperCase() + slot.slice(1)}
+              </div>
+              {st.map((t) => (
+                <TaskCard
+                  key={t.id}
+                  task={t}
+                  onAutoComplete={handleAutoComplete}
+                />
+              ))}
             </div>
-            {st.map((t) => (
-              <TaskCard
-                key={t.id}
-                task={t}
-                onAutoComplete={handleAutoComplete}
-              />
-            ))}
-          </div>
-        );
-      })}
+          );
+        })}
 
-      {total === 0 && (
+      {!tasksLoading && total === 0 && (
         <div className="empty-state">
           <div className="icon-wrap">
             <FileText />

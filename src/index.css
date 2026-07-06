@@ -22,6 +22,7 @@
   --radius: 12px;
   --shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
   --nav-h: 64px;
+  --top-pad: calc(18px + env(safe-area-inset-top));
 }
 html,
 body {
@@ -32,6 +33,9 @@ body {
   color: var(--text);
   -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: transparent;
+}
+body.modal-open {
+  overflow: hidden;
 }
 input,
 button,
@@ -53,7 +57,7 @@ button {
   background: var(--bg);
 }
 .app-content {
-  padding: 0 16px calc(var(--nav-h) + 24px);
+  padding: var(--top-pad) 16px calc(var(--nav-h) + 24px);
 }
 .loading-screen {
   display: flex;
@@ -193,14 +197,19 @@ button {
   min-height: 20px;
 }
 .screen-header {
-  padding: 16px 0 12px;
+  min-height: 48px;
+  padding: 0 0 14px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
+  position: relative;
+  text-align: center;
 }
 .screen-header h1 {
   font-size: 22px;
   font-weight: 700;
+  flex: 1;
+  text-align: center;
 }
 .screen-header .sub {
   font-size: 13px;
@@ -208,6 +217,8 @@ button {
   margin-top: 2px;
 }
 .back-btn {
+  position: absolute;
+  left: 0;
   display: flex;
   align-items: center;
   gap: 4px;
@@ -222,13 +233,15 @@ button {
   background: var(--primary-light);
 }
 .greeting {
-  padding: 8px 0 4px;
+  padding: 0 0 8px;
+  text-align: center;
 }
 .greeting h2 {
   font-size: 20px;
   font-weight: 700;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
 }
 .greeting .date-text {
@@ -261,6 +274,12 @@ button {
   padding: 16px;
   margin: 12px 0;
   box-shadow: var(--shadow);
+}
+.form-hint {
+  color: var(--text2);
+  font-size: 13px;
+  line-height: 1.4;
+  margin-top: -2px;
 }
 .progress-info {
   flex: 1;
@@ -406,6 +425,10 @@ button {
 .badge-other {
   background: #f3f4f6;
   color: #6b7280;
+}
+.badge-daily {
+  background: var(--warning-light);
+  color: #b45309;
 }
 .task-time {
   font-size: 12px;
@@ -1084,6 +1107,196 @@ button {
   font-size: 12px;
   color: var(--text3);
   padding: 24px;
+}
+.btn-danger-solid {
+  background: var(--danger);
+  color: #fff;
+}
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(17, 24, 39, 0.36);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: max(18px, env(safe-area-inset-top)) 18px
+    max(18px, env(safe-area-inset-bottom));
+}
+.confirm-modal {
+  width: 100%;
+  max-width: 448px;
+  background: var(--surface);
+  border-radius: 16px;
+  box-shadow: 0 18px 48px rgba(15, 23, 42, 0.22);
+  padding: 22px 18px 18px;
+  position: relative;
+  text-align: center;
+  transform: translateY(-8px);
+}
+.modal-close {
+  position: absolute;
+  right: 12px;
+  top: 12px;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  color: var(--text3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.modal-close svg {
+  width: 18px;
+  height: 18px;
+}
+.modal-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  margin: 0 auto 12px;
+  background: var(--primary-light);
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.modal-icon.danger {
+  background: var(--danger-light);
+  color: var(--danger);
+}
+.modal-icon svg {
+  width: 24px;
+  height: 24px;
+}
+.confirm-modal h2 {
+  font-size: 18px;
+  margin-bottom: 6px;
+}
+.confirm-modal p {
+  color: var(--text2);
+  font-size: 14px;
+  line-height: 1.45;
+  margin: 0 auto 18px;
+  max-width: 320px;
+}
+.modal-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.modal-actions .btn {
+  margin: 0;
+}
+.skeleton-app {
+  background: var(--bg);
+}
+.skeleton-header {
+  padding: 4px 0 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.skeleton-line,
+.skeleton-circle,
+.skeleton-card,
+.skeleton-task,
+.skeleton-calendar {
+  background: linear-gradient(90deg, #eceff3 25%, #f7f8fa 37%, #eceff3 63%);
+  background-size: 400% 100%;
+  animation: shimmer 1.25s ease-in-out infinite;
+}
+.skeleton-line {
+  display: block;
+  height: 14px;
+  border-radius: 999px;
+}
+.skeleton-line.small {
+  height: 10px;
+}
+.w-28 {
+  width: 28%;
+}
+.w-40 {
+  width: 40%;
+}
+.w-45 {
+  width: 45%;
+}
+.w-70 {
+  width: 70%;
+}
+.skeleton-list {
+  margin-top: 12px;
+}
+.skeleton-task {
+  height: 72px;
+  border-radius: var(--radius);
+  margin-bottom: 8px;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.skeleton-circle {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.skeleton-grow {
+  flex: 1;
+  display: grid;
+  gap: 10px;
+}
+.skeleton-card {
+  border-radius: var(--radius);
+  margin-bottom: 12px;
+}
+.skeleton-card.tall {
+  height: 96px;
+}
+.skeleton-card.stats {
+  height: 150px;
+}
+.skeleton-card.mini {
+  height: 92px;
+}
+.skeleton-card.list {
+  height: 154px;
+}
+.skeleton-calendar {
+  height: 312px;
+  border-radius: var(--radius);
+  margin-bottom: 16px;
+}
+@keyframes shimmer {
+  0% {
+    background-position: 100% 0;
+  }
+  100% {
+    background-position: 0 0;
+  }
+}
+@media (max-width: 480px) {
+  :root {
+    --top-pad: calc(22px + env(safe-area-inset-top));
+  }
+  .screen-header h1 {
+    font-size: 21px;
+  }
+  .form-card {
+    padding: 18px 16px;
+  }
+  .toggle-btn {
+    flex: 1 1 calc(50% - 8px);
+    justify-content: center;
+  }
+  .radio-group {
+    justify-content: space-between;
+    gap: 8px;
+  }
 }
 ::-webkit-scrollbar {
   width: 0;

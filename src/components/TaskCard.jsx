@@ -10,8 +10,10 @@ import {
   Pause,
   RotateCcw,
   Trash2,
+  Repeat2,
 } from "lucide-react";
 import { useTaskStore } from "../store/useTaskStore";
+import ConfirmModal from "./ConfirmModal";
 
 function fmtSec(s) {
   s = Math.max(0, Math.floor(s));
@@ -43,6 +45,7 @@ export default function TaskCard({ task, onAutoComplete }) {
   const { toggleComplete, deleteTask, startTimer, pauseTimer, resetTimer } =
     useTaskStore();
   const [remaining, setRemaining] = useState(0);
+  const [confirmDelete, setConfirmDelete] = useState(false);
   const CatIcon = catIcon[task.category] || Pin;
 
   useEffect(() => {
@@ -109,6 +112,11 @@ export default function TaskCard({ task, onAutoComplete }) {
                 <Clock /> {task.time}
               </span>
             )}
+            {task.repeat === "daily" && (
+              <span className="task-badge badge-daily">
+                <Repeat2 /> daily
+              </span>
+            )}
             {hasTimer &&
               !task.timerRunning &&
               !(task.timerPausedRemaining > 0) &&
@@ -172,10 +180,26 @@ export default function TaskCard({ task, onAutoComplete }) {
             </div>
           )}
         </div>
-        <button className="task-delete" onClick={() => deleteTask(task.id)}>
+        <button className="task-delete" onClick={() => setConfirmDelete(true)}>
           <Trash2 />
         </button>
       </div>
+      <ConfirmModal
+        open={confirmDelete}
+        title={task.repeat === "daily" ? "Delete daily task?" : "Delete task?"}
+        message={
+          task.repeat === "daily"
+            ? "This removes the task from today and all future days."
+            : "This task will be permanently removed."
+        }
+        confirmLabel="Delete"
+        danger
+        onCancel={() => setConfirmDelete(false)}
+        onConfirm={async () => {
+          await deleteTask(task.id);
+          setConfirmDelete(false);
+        }}
+      />
     </div>
   );
 }

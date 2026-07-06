@@ -9,6 +9,7 @@ import {
   Heart,
   Pin,
   Timer,
+  Repeat2,
 } from "lucide-react";
 import { useTaskStore } from "../store/useTaskStore";
 
@@ -33,6 +34,7 @@ export default function AddTaskScreen() {
   const [category, setCategory] = useState("work");
   const [priority, setPriority] = useState("medium");
   const [time, setTime] = useState("");
+  const [repeatDaily, setRepeatDaily] = useState(false);
   const [timerOn, setTimerOn] = useState(false);
   const [timerH, setTimerH] = useState(0);
   const [timerM, setTimerM] = useState(30);
@@ -49,6 +51,7 @@ export default function AddTaskScreen() {
       category,
       priority,
       time: time || null,
+      repeat: repeatDaily ? "daily" : "once",
       durationMinutes: timerOn ? timerH * 60 + timerM : null,
     };
     if (data.durationMinutes === 0) data.durationMinutes = null;
@@ -64,7 +67,6 @@ export default function AddTaskScreen() {
           <ArrowLeft size={20} /> Back
         </button>
         <h1>Add Task</h1>
-        <div style={{ width: 60 }}></div>
       </div>
 
       <div className="form-card">
@@ -142,6 +144,25 @@ export default function AddTaskScreen() {
           value={time}
           onChange={(e) => setTime(e.target.value)}
         />
+      </div>
+
+      <div className="form-card">
+        <div className="timer-toggle-row">
+          <span>
+            <Repeat2 /> Daily Task
+          </span>
+          <div
+            className={"switch" + (repeatDaily ? " on" : "")}
+            onClick={() => setRepeatDaily(!repeatDaily)}
+            role="switch"
+            aria-checked={repeatDaily}
+          ></div>
+        </div>
+        {repeatDaily && (
+          <p className="form-hint">
+            This task will show every day from the selected date.
+          </p>
+        )}
       </div>
 
       <div className="form-card">

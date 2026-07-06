@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="116" fill="#2563EB"/>
+  <path fill="#DBEAFE" d="M144 122h224c22.1 0 40 17.9 40 40v214c0 22.1-17.9 40-40 40H144c-22.1 0-40-17.9-40-40V162c0-22.1 17.9-40 40-40Z"/>
+  <path fill="#FFFFFF" d="M104 196h304v180c0 22.1-17.9 40-40 40H144c-22.1 0-40-17.9-40-40V196Z"/>
+  <path fill="#1D4ED8" d="M158 88c11 0 20 9 20 20v44c0 11-9 20-20 20s-20-9-20-20v-44c0-11 9-20 20-20Zm196 0c11 0 20 9 20 20v44c0 11-9 20-20 20s-20-9-20-20v-44c0-11 9-20 20-20Z"/>
+  <rect width="62" height="62" x="148" y="242" fill="#DBEAFE" rx="18"/>
+  <rect width="62" height="62" x="225" y="242" fill="#DCFCE7" rx="18"/>
+  <rect width="62" height="62" x="302" y="242" fill="#FEF3C7" rx="18"/>
+  <path fill="#16A34A" d="m247.4 278.5 16.5 16.5 32.8-38.4 16.7 14.3-48 56.1-34.9-34.9 16.9-13.6Z"/>
+  <rect width="62" height="62" x="148" y="319" fill="#FEE2E2" rx="18"/>
+  <rect width="62" height="62" x="225" y="319" fill="#DBEAFE" rx="18"/>
+  <rect width="62" height="62" x="302" y="319" fill="#EDE9FE" rx="18"/>
+</svg>

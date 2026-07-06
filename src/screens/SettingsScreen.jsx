@@ -1,18 +1,11 @@
 import { useState } from "react";
-import { User, LogOut, CalendarDays, Zap, Shield } from "lucide-react";
+import { LogOut, CalendarDays, Zap, Shield } from "lucide-react";
 import { useTaskStore } from "../store/useTaskStore";
+import ConfirmModal from "../components/ConfirmModal";
 
 export default function SettingsScreen() {
   const { user, logout } = useTaskStore();
   const [confirmLogout, setConfirmLogout] = useState(false);
-
-  const handleLogout = async () => {
-    if (!confirmLogout) {
-      setConfirmLogout(true);
-      return;
-    }
-    await logout();
-  };
 
   return (
     <div>
@@ -32,10 +25,10 @@ export default function SettingsScreen() {
 
       <div className="settings-section">
         <h3>Actions</h3>
-        <div className="settings-item danger" onClick={handleLogout}>
+        <div className="settings-item danger" onClick={() => setConfirmLogout(true)}>
           <div className="left">
             <LogOut />
-            <span>{confirmLogout ? "Tap again to confirm" : "Logout"}</span>
+            <span>Logout</span>
           </div>
           <span className="right">{">"}</span>
         </div>
@@ -61,6 +54,18 @@ export default function SettingsScreen() {
       <div className="version">
         Daily Flow v1.0.0 &middot; Made with &hearts;
       </div>
+      <ConfirmModal
+        open={confirmLogout}
+        title="Logout?"
+        message="You will need to sign in again to access your tasks."
+        confirmLabel="Logout"
+        danger
+        onCancel={() => setConfirmLogout(false)}
+        onConfirm={async () => {
+          await logout();
+          setConfirmLogout(false);
+        }}
+      />
     </div>
   );
 }
