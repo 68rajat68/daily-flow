@@ -1,1 +1,15 @@
-{"name":"DayFlow","short_name":"DayFlow","start_url":"/","display":"standalone","background_color":"#F5F5F5","theme_color":"#2563EB","icons":[{"src":"data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📅</text></svg>","sizes":"any","type":"image/svg+xml"}]}
+{
+  "name": "Daily Flow",
+  "short_name": "DailyFlow",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#F5F5F5",
+  "theme_color": "#2563EB",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📅</text></svg>",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

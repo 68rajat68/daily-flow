@@ -1,5 +1,5 @@
 {
-  "name": "dayflow",
+  "name": "daily-flow",
   "private": true,
   "version": "1.0.0",
   "type": "module",
@@ -13,7 +13,8 @@
     "react-dom": "^18.2.0",
     "firebase": "^10.7.0",
     "zustand": "^4.4.7",
-    "date-fns": "^3.0.0"
+    "date-fns": "^3.0.0",
+    "lucide-react": "^0.344.0"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.2.0",
